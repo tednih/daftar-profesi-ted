@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactComponent as BgHeader } from "../src/images/bg-header-desktop.svg";
+import { Link } from "react-router-dom";
 import Img1 from "../src/images/photosnap.svg";
 import Img2 from "../src/images/manage.svg";
 import Img3 from "../src/images/account.svg";
@@ -174,29 +175,32 @@ const dataProfesi = () => {
 
         <div className=" bg-LighGrayishBg flex h-auto">
           <div className="items-center lg:max-w-[1140px] max-w-[375px] m-auto w-full md:flex mt-[-45px] flex flex-col">
-            <div className="p-4 bg-white w-full rounded-md shadow-md flex flex-row justify-between items-center ">
-              <ul className="flex flex-wrap gap-2">
+            <div className="p-4 bg-white mb-5 w-full rounded-md shadow-md flex flex-row justify-between items-center ">
+              <ul className="flex flex-wrap gap-2 lg:ml-6 ">
                 <li className="bg-LighGrayishTablet pl-2 rounded-md space-x-3">
-                  <a className="text-VeryDarkGrayish flex justify-between items-center">
+                  <div className="text-VeryDarkGrayish flex justify-between items-center">
                     JavaScript
                     <button className="ml-2 bg-primary w-9 h-9 rounded-r-md hover:bg-VeryDarkGrayish text-white">
                       X
                     </button>
-                  </a>
+                  </div>
                 </li>
               </ul>
-              <a href="/" className="pr-8 hover:text-primary hover:underline">
+              <Link
+                to="/"
+                className=" hover:text-primary lg:mr-6 hover:underline"
+              >
                 Clear
-              </a>
+              </Link>
             </div>
 
             {Profesis.map((profesi, index) => (
-              <div className="p-4 bg-white w-full rounded-md shadow-md mt-7 hover:border-l-4 border-l-primary">
+              <div className="p-4 bg-white w-full rounded-md shadow-md my-5 hover:border-l-4 border-l-primary">
                 <div className="justify-between flex flex-col lg:flex-row lg:items-center w-full max-w-[375px] lg:max-w-full ">
                   <div>
                     <ul
-                      className="flex flex-col gap-3 lg:flex-row"
-                      data-index={index}
+                      className="flex flex-col gap-3 lg:ml-6 lg:flex-row"
+                      key={index.id}
                     >
                       <li className="mt-[-38px] lg:mt-0 ">
                         <img
@@ -233,12 +237,14 @@ const dataProfesi = () => {
                   <div className="bg-DarkGrayish w-full h-1 mb-5 lg:hidden"></div>
                   <div>
                     <div className="">
-                      <ul className="flex flex-wrap gap-4 lg:flex-row ">
-                        <li>
-                          <button className="bg-LighGrayishTablet text-primary hover:bg-primary hover:text-LighGrayishTablet py-2 px-2 rounded-md">
-                            {profesi.languages[0]}
-                          </button>
-                        </li>
+                      <ul className="flex flex-wrap gap-4 lg:flex-row lg:mr-6">
+                        {profesi.languages.map((language) => (
+                          <li>
+                            <button className="bg-LighGrayishTablet text-primary hover:bg-primary hover:text-LighGrayishTablet py-2 px-2 rounded-md">
+                              {language}
+                            </button>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </div>
