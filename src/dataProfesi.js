@@ -171,6 +171,27 @@ const DataProfesi = () => {
   const [selectedLabelRole, setSelectedLabelRole] = useState([]);
   const [selectedLabelLevel, setSelectedLabelLevel] = useState([]);
 
+  const filteredProfessions = Profesis.filter((profesi) => {
+    if (
+      selectedLabelRole.length === 0 &&
+      selectedLabelLevel.length === 0 &&
+      selectedLabelLanguage.length === 0
+    ) {
+      return true; // show all professions if no label is selected
+    } else {
+      const roleMatch = selectedLabelRole.some(
+        (label) => label === profesi.role
+      );
+      const levelMatch = selectedLabelLevel.some(
+        (label) => label === profesi.level
+      );
+      const languageMatch = selectedLabelLanguage.some((label) =>
+        profesi.languages.includes(label)
+      );
+      return roleMatch || levelMatch || languageMatch;
+    }
+  });
+
   return (
     <div>
       <div className="lg:max-w-[1440px] items-center mx-auto">
@@ -258,7 +279,7 @@ const DataProfesi = () => {
               </Link>
             </div>
 
-            {Profesis.map((profesi, index) => (
+            {filteredProfessions.map((profesi, index) => (
               <div className="p-4 bg-white w-full rounded-md shadow-md my-5 lg:my-2 hover:border-l-4 border-l-primary">
                 <div className="justify-between flex flex-col lg:flex-row lg:items-center w-full max-w-[375px] lg:max-w-full ">
                   <div>
