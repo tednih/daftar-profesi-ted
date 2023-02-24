@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReactComponent as BgHeader } from "../src/images/bg-header-desktop.svg";
 import { Link } from "react-router-dom";
+
 import Img1 from "../src/images/photosnap.svg";
 import Img2 from "../src/images/manage.svg";
 import Img3 from "../src/images/account.svg";
@@ -165,37 +166,100 @@ const Profesis = [
   },
 ];
 
-const dataProfesi = () => {
+const DataProfesi = () => {
+  const [selectedLabelLanguage, setSelectedLabelLanguage] = useState([]);
+  const [selectedLabelRole, setSelectedLabelRole] = useState([]);
+  const [selectedLabelLevel, setSelectedLabelLevel] = useState([]);
+
   return (
     <div>
       <div className="lg:max-w-[1440px] items-center mx-auto">
         <header className=" bg-primary ">
-          <BgHeader className="w-auto" />
+          <BgHeader className="w-[375px] lg:w-[1440px] " />
         </header>
 
         <div className=" bg-LighGrayishBg flex h-auto">
           <div className="items-center lg:max-w-[1140px] max-w-[375px] m-auto w-full md:flex mt-[-45px] flex flex-col">
-            <div className="p-4 bg-white mb-5 w-full rounded-md shadow-md flex flex-row justify-between items-center ">
+            <div
+              className={`p-4 bg-white mb-5 w-full rounded-md shadow-md flex flex-row justify-between items-center ${
+                selectedLabelRole.length === 0 &&
+                selectedLabelLanguage.length === 0 &&
+                selectedLabelLevel.length === 0
+                  ? "hidden"
+                  : ""
+              }`}
+            >
               <ul className="flex flex-wrap gap-2 lg:ml-6 ">
-                <li className="bg-LighGrayishTablet pl-2 rounded-md space-x-3">
-                  <div className="text-VeryDarkGrayish flex justify-between items-center">
-                    JavaScript
-                    <button className="ml-2 bg-primary w-9 h-9 rounded-r-md hover:bg-VeryDarkGrayish text-white">
-                      X
-                    </button>
-                  </div>
-                </li>
+                {selectedLabelRole.map((role, index) => (
+                  <li className="bg-LighGrayishTablet pl-2 rounded-md space-x-3">
+                    <div className="text-VeryDarkGrayish flex justify-between items-center">
+                      {role}
+                      <button
+                        className="ml-2 bg-primary w-9 h-9 rounded-r-md hover:bg-VeryDarkGrayish text-white"
+                        onClick={() => {
+                          const newRole = [...selectedLabelRole];
+                          newRole.splice(index, 1);
+                          setSelectedLabelRole(newRole);
+                        }}
+                      >
+                        X
+                      </button>
+                    </div>
+                  </li>
+                ))}
+
+                {selectedLabelLevel.map((level, index) => (
+                  <li className="bg-LighGrayishTablet pl-2 rounded-md space-x-3">
+                    <div className="text-VeryDarkGrayish flex justify-between items-center">
+                      {level}
+                      <button
+                        className="ml-2 bg-primary w-9 h-9 rounded-r-md hover:bg-VeryDarkGrayish text-white"
+                        onClick={() => {
+                          const newRole = [...selectedLabelLevel];
+                          newRole.splice(index, 1);
+                          setSelectedLabelLevel(newRole);
+                        }}
+                      >
+                        X
+                      </button>
+                    </div>
+                  </li>
+                ))}
+
+                {selectedLabelLanguage.map((language, index) => (
+                  <li className="bg-LighGrayishTablet pl-2 rounded-md space-x-3">
+                    <div className="text-VeryDarkGrayish flex justify-between items-center">
+                      {language}
+                      <button
+                        className="ml-2 bg-primary w-9 h-9 rounded-r-md hover:bg-VeryDarkGrayish text-white"
+                        onClick={() => {
+                          const newLanguages = [...selectedLabelLanguage];
+                          newLanguages.splice(index, 1);
+                          setSelectedLabelLanguage(newLanguages);
+                        }}
+                      >
+                        X
+                      </button>
+                    </div>
+                  </li>
+                ))}
               </ul>
+
               <Link
                 to="/"
-                className=" hover:text-primary lg:mr-6 hover:underline"
+                className="hover:text-primary lg:mr-6 hover:underline"
+                onClick={() => {
+                  setSelectedLabelLanguage([]);
+                  setSelectedLabelLevel([]);
+                  setSelectedLabelRole([]);
+                }}
               >
                 Clear
               </Link>
             </div>
 
             {Profesis.map((profesi, index) => (
-              <div className="p-4 bg-white w-full rounded-md shadow-md my-5 hover:border-l-4 border-l-primary">
+              <div className="p-4 bg-white w-full rounded-md shadow-md my-5 lg:my-2 hover:border-l-4 border-l-primary">
                 <div className="justify-between flex flex-col lg:flex-row lg:items-center w-full max-w-[375px] lg:max-w-full ">
                   <div>
                     <ul
@@ -213,12 +277,16 @@ const dataProfesi = () => {
                       <li className="items-center pb-5 lg:pb-0">
                         <div className="flex flex-row gap-2 mb-3 lg:mb-1 text-primary">
                           <h2> {profesi.company} </h2>
-                          <h2 className="text-white bg-primary px-3 rounded-full">
-                            {profesi.new}
-                          </h2>
-                          <h2 className="text-white bg-VeryDarkGrayish px-3 rounded-full">
-                            {profesi.featured}
-                          </h2>
+                          {profesi.new ? (
+                            <h2 className="text-white bg-primary px-3 rounded-full">
+                              New
+                            </h2>
+                          ) : null}
+                          {profesi.new ? (
+                            <h2 className="text-white bg-VeryDarkGrayish px-3 rounded-full">
+                              featured
+                            </h2>
+                          ) : null}
                         </div>
                         <a
                           href="/"
@@ -238,9 +306,44 @@ const dataProfesi = () => {
                   <div>
                     <div className="">
                       <ul className="flex flex-wrap gap-4 lg:flex-row lg:mr-6">
-                        {profesi.languages.map((language) => (
-                          <li>
-                            <button className="bg-LighGrayishTablet text-primary hover:bg-primary hover:text-LighGrayishTablet py-2 px-2 rounded-md">
+                        <li>
+                          <button
+                            className="bg-LighGrayishTablet text-primary hover:bg-primary hover:text-LighGrayishTablet py-2 px-2 rounded-md"
+                            onClick={() =>
+                              setSelectedLabelRole([
+                                ...selectedLabelRole,
+                                profesi.role,
+                              ])
+                            }
+                          >
+                            {profesi.role}
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="bg-LighGrayishTablet text-primary hover:bg-primary hover:text-LighGrayishTablet py-2 px-2 rounded-md"
+                            onClick={() =>
+                              setSelectedLabelLevel([
+                                ...selectedLabelLevel,
+                                profesi.level,
+                              ])
+                            }
+                          >
+                            {profesi.level}
+                          </button>
+                        </li>
+
+                        {profesi.languages.map((language, index) => (
+                          <li key={index}>
+                            <button
+                              className="bg-LighGrayishTablet text-primary hover:bg-primary hover:text-LighGrayishTablet py-2 px-2 rounded-md"
+                              onClick={() =>
+                                setSelectedLabelLanguage([
+                                  ...selectedLabelLanguage,
+                                  language,
+                                ])
+                              }
+                            >
                               {language}
                             </button>
                           </li>
@@ -258,4 +361,4 @@ const dataProfesi = () => {
   );
 };
 
-export default dataProfesi;
+export default DataProfesi;
