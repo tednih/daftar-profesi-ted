@@ -309,12 +309,12 @@ const DataProfesi = () => {
                             </h2>
                           ) : null}
                         </div>
-                        <a
-                          href="/"
+                        <Link
+                          to="/"
                           className="text-VeryDarkGrayish hover:text-primary text-2xl "
                         >
                           {profesi.position}
-                        </a>
+                        </Link>
                         <div className="flex flex-row mt-3 lg:mt-0 space-x-4 sm:text-sm text-DarkGrayish">
                           <h2> {profesi.postedAt}</h2>
                           <h2> {profesi.contract} </h2>
